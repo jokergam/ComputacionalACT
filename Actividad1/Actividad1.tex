@@ -1,0 +1,145 @@
+\documentclass[12pt]{article}
+%paquete de español
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,mexico]{babel}
+%fórmulas matemáticas
+ \usepackage{amsmath}
+%incluir imágenes
+ \usepackage{graphicx}
+ 
+%top matter 
+\title{Actividad 1}
+\author{Valenzuela Chaparro Hugo de Jesús}
+\date{30 de enero de 2016}
+%cuerpo del documento
+\begin{document}
+\maketitle
+
+\section{Péndulo simple}
+El péndulo simple es una idealización del péndulo físico, en un sistema aislado, en el cual se toman en cuenta las siguientes consideraciones:
+\begin{itemize}
+\item La cuerda en el que el péndulo oscila no posee masa, y siempre está tensada.
+\item EL cuerpo que oscila se considera una partícula puntual.
+\item El movimiento es solo en dos dimensiones, y el péndulo traza un arco en su recorrido.
+\item Se considera libre de fricción o de otras fuerzas disipativas.
+\item El campo gravitacional no cambia conforme el péndulo aumenta la altura.
+\item El soporte del péndulo no se mueve.
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.5]{penduloEAEAEAEA.png}
+\end{center}
+
+El movimiento del péndulo se puede representar por medio de la siguiente ecuación diferencial:
+
+$\frac{d^2 \theta}{d t^2}+\frac{g}{\ell}\sin\theta = 0$ ...... (Eq. 1)
+
+\noindent donde $g$ es la aceleración debida a la fuerza gravitacional, $\ell$ la longitud del péndulo y $\theta$ el desplazamiento angular respecto a la vertical.
+
+\section{Aproximando la solución para ángulos pequeños}
+Pero (Eq. 1) requiere métodos númericos para aproximar su solución, pero se puede resolver anaíticamente si tomamos sólo valores para $\theta<<1$ pues de esa manera se tiene que $\sin\theta\approx\theta$.
+
+De esta forma obtenemos la ecuación diferencial de un oscilador armónico simple:
+
+$\frac{d^2 \theta}{d t^2}+\frac{g}{\ell}\theta = 0$
+
+\noindent y dando las condiciones iniciales $\theta(0)=\theta_0$ y $\frac{d\theta}{dt}(0)=0$, la solución se convierte en:
+
+$\theta(t)=\theta_0\cos(wt)$ , $\theta<<1$ , $\omega=\sqrt{\frac{g}{\ell}}$
+
+El movimiento es armónico simple, donde $\theta_0$ es la semi-amplitud, es decir, el ángulo entre la cuerda del péndulo y la vertical. 
+El periodo de la oscilación, lo que tarda en completar una ida y venida es:
+
+$T_0=\frac{2\pi}{\omega}=2\pi\sqrt\frac{\ell}{g}$ ...... (Eq. 2)  , $\theta<<1$
+
+\noindent usando la aproximación de los ángulos pequeños, el periodo es independiente de la amplitud $\theta_0$, y de la masa, esta es la propiedad de isocronismo que Galileo notó.
+
+\subsection{Aproximación empírica para la longitud de péndulo}
+Si despejamos $\ell$ de (Eq. 2) para el periodo, se obtiene:
+
+$\ell=\frac{g}{\pi^2}\frac{T_0^2}{4}$
+
+\noindent si se usa el sistema mks y si la medición se está haciendo en la superficie terrestre, por lo que $g\approx9.81\frac{m}{s^2}$ y $\frac{g}{\pi^2}\approx1$
+
+Entonces obtenemos estas aproximaciones rasonables para el periodo y la longitud:
+
+$\ell\approx\frac{T_0^2}{4}$
+
+$T_0\approx2\sqrt{\ell}$
+
+\section{Periodo de amplitud arbitraria}
+Para amplitudes más grandes que las usadas en la aproximación para ángulos pequeños, podemos calcular el periodo exacto invirtiendo la siguiente ecuación para la velocidad angular:
+
+$\frac{d\theta}{dt}=\sqrt{\frac{2g}{\ell}\cos\theta-\cos\theta_0}$
+
+\noindent obteniendo entonces:
+
+$\frac{dt}{d\theta}=\sqrt{\frac{\ell}{2g}}\frac{1}{\sqrt{\cos\theta-\cos\theta_0}}$
+
+\noindent 
+e integrando 4 veces sobre el cuarto de un ciclo lleva a:
+
+$T=4\sqrt{\frac{\ell}{2g}}\int_{0}^{\theta_0}\frac{1}{\sqrt{\cos\theta-\cos\theta_0}}d\theta$
+
+Esta integral diverge conforme $\theta_0$ se acerca a la vertical
+
+$\lim_{\theta_0 \to \pi}T=\infty$
+
+\noindent así que un péndulo con la energía necesaria para ir verticalmente nunca llegará. La integral se puede escribir en terminos de integrales elípticas conmo:
+
+$T=4\sqrt{\frac{\ell}{g}}K(\sin^2{\frac{\theta_0}{2}})$........(Eq. 3)
+
+\noindent donde K es la integral elíptica incompleta de primer tipo definida por:
+
+$K(k)=F(\frac{\pi}{2}, k)=\int_{0}^{\frac{\pi}{2}}\frac{1}{\sqrt{1-k^2\sin^2{u}}}du$
+
+\noindent Para comparar la aproximación con la solución lineal, consideramos el periodo de un péndulo de longitud 1 m en la Tierra ($g=9.80665\frac{m}{s^2}$) con un ángulo inicial de $10^\circ$. La diferencia entre ambos valores es menor del 0.2\%. que es mucho menor que la que podría causar de g debido a la localización geográfica.
+
+Hay distintas maneras de procedera calcular la integral elíptica:
+
+\subsection{Solución polinomial de Legendre}
+
+Dada (Eq. 3) y la solución polinomial de Legendre para la interal elíptica:
+
+$K(k)=\frac{\pi}{2}\{1+(\frac{1}{2})k^2+(\frac{1\cdot3}{2\cdot4})^2k^2+...+[\frac{(2n-1)!!}{(2n)!!}]^2k^{2n}+...\}$, 
+
+\noindent una solución exacta para el periodo del péndulo es:
+
+$T=2\pi\sqrt{\frac{\ell}{g}}\cdot\sum_{n=0}^{\infty}\left[\left(\frac{(2n)!}{(2^{n}\cdot{n!})^2}\right)^2\cdot\sin^{2n}(\frac{\theta_0}{2})\right]$
+
+La siguiente figura muestra los errores relativos usando series de potencia. $T_0$ es la aproximación lineal, y de $T_2$ a $T_{10}$ incluyen los términos de la segunda a la décima potencia, respectivamente.
+
+\begin{center}
+\includegraphics[scale=0.5]{errorrelativo.png}
+\end{center}
+
+\subsection{Solución de serie de potencia}
+Otra solución se puede encontrar en las series de Maclaurin:
+
+$\sin{\frac{\theta_0}{2}}=\frac{1}{2}\theta_0-\frac{1}{48}\theta_0^3+\frac{1}{3840}\theta_0^5-\frac{1}{645120}\theta_0^7+...$
+
+que se usa en la solución polinimial de Legendre. La serie de potencia que resulta entonces es:
+
+$T=2\pi\sqrt{\frac{\ell}{g}}\left(1+\frac{1}{16}\theta_0^2+\frac{11}{3072}\theta_0^4+\frac{173}{737280}\theta_0^6+\frac{22931}{1321205760}\theta_0^8+\frac{1319183}{951268147200}\theta_0^{10}+\frac{233526463}{2009078326886400}\theta_0^{12}+...\right)$
+
+\subsection{Solución de la media aritmético-geométrica}
+Dada (Eq. 3) y la solución de la media aritmético-geométrica para la integral elíptica:
+
+$K(k)=\frac{\frac{\pi}{2}}{M(1-k,1+k)}$, 
+
+\noindent donde M(x,y) es la media aritmético-geométrica para x e y.
+
+Esto lleva a una fórmula alternativa, rápida y convergente para el periodo:
+
+$T=\frac{2\pi}{M(1, \cos{\frac{\theta_0}{2}})}\sqrt{\frac{\ell}{g}}$
+
+\section{Referencias}
+\begin{enumerate}
+\item Robert N, M.G. Olsson. "The pendulum: Rich physics from a simple system". (1986).
+\item Carvalhaes C, Suppes P. "Approximations for the period of the simple pendulum based on the arithmetic-geometric mean". (2008).
+\item Adlaj S. "An eloquent formula for the perimeter of an ellipse". (2012).
+\item Van Baak T. "A New and Wonderful Pendulum Period Equation". (2013).
+\item Wikipedia. LINK: www.wikipedia.org
+\end{enumerate}
+
+\end{document}
